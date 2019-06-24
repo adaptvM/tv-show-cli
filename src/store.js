@@ -4,7 +4,21 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    getShows: [],
+    getSeasons: [],
+    espisodes: [],
+    selectedId: 0
+  },
+  mutations: {
+    updateShows(state, payload) {
+      state.getShows = [];
+      state.getShows = state.getShows.concat(payload);
+    },
+    updateSeasons(state, payload) {
+      state.getSeasons = [];
+      state.getSeasons = state.getSeasons.concat(payload);
+    }
+  },
   actions: {}
 });
