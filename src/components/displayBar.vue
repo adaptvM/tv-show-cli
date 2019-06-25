@@ -10,7 +10,7 @@
             </div>
             <div v-else>
               <img :src="data.season.image.medium">
-              <p>{{genericTitle}} {{data.season.number}}</p>
+              <p><strong>{{genericTitle}} {{data.season.number}}</strong></p>
             </div>
             <!-- <p>{{data.season}}</p> -->
           </div>
@@ -47,10 +47,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  margin: auto;
+}
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 220px);
   grid-gap: 7px;
-  width: auto;
 }
+
 </style>

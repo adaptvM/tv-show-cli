@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="">
     <h1>{{ msg }}</h1>
 
     <div class="form-group">
@@ -12,19 +12,28 @@
         v-model="showTitle"
         @keyup="getTVshows()"
       >
+      <!-- <button @click="changeView()">Search</button> -->
     </div>
     <br>
 
-    <div>
+    
       <div class="container">
         <div class="wrapper">
-          <div class v-for="show in selectShows" :key="show.id">
-            <img height width :src="show.show.image.medium" @click="getSeason(show.show.id)">
+          <div class="item" v-for="data in selectShows" :key="data.id">
+            <div v-if="data.show.image === null">
+              <img :src="noImage" width="210" height="295">
+              <!-- <p>{{genericTitle}} {{data.season.number}}</p> --> 
+            </div>
+            <div v-else>
+              <img height width :src="data.show.image.medium" @click="getSeason(data.show.id)">
+              <div>{{data.show.name}}</div>
+            </div>
+            
           </div>
         </div>
         <!-- <P> {{selectShows}}</P> -->
       </div>
-    </div>
+    
   </div>
 </template>
 
@@ -37,18 +46,24 @@ export default {
   data: function() {
     return {
       showTitle: "",
-      shows: []
+      shows: [],
+      noImage: "https://static.tvmaze.com/images/no-img/no-img-portrait-text.png"
     };
   },
   methods: {
     async getTVshows() {
-      const seek = fetch(
-        `http://localhost:3001/tvshows/${this.showTitle}`
-      ).catch(err => err);
-      const found = await seek.then(value => value.json());
-      this.shows = found;
-      this.$store.commit("updateShows", this.shows);
-      this.$store.commit("updateSeasons", []);
+
+      if(this.showTitle) {
+          const seek = fetch(
+          `http://localhost:3001/tvshows/${this.showTitle}`
+        ).catch(err => err);
+        const found = await seek.then(value => value.json());
+        this.shows = found;
+        this.$store.commit("updateShows", this.shows);
+        this.$store.commit("updateSeasons", []);
+        
+      }
+      
     },
     async getSeason(id) {
       const seasons = fetch(`http://localhost:3001/seasons/${id}`).catch(
@@ -58,6 +73,9 @@ export default {
       // eslint-disable-next-line no-console
       console.log(foundSeasons);
       this.$store.commit("updateSeasons", foundSeasons);
+    },
+    changeView() {
+      this.$emit('select', 'displayBar');
     }
   },
   computed: {
@@ -79,8 +97,8 @@ export default {
 <style scoped>
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 220px);
   grid-gap: 7px;
-  width: auto;
 }
+
 </style>

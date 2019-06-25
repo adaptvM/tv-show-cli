@@ -21,7 +21,7 @@ const processSeasons = async function(arr) {
 
     resultArr.push({
       season: arr[i],
-      episodes
+      episodes: episodes[episodes.length - 1]
     });
   }
 

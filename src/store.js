@@ -12,8 +12,8 @@ export default new Vuex.Store({
   },
   mutations: {
     updateShows(state, payload) {
-      state.getShows = [];
-      state.getShows = state.getShows.concat(payload);
+      //state.getShows = [];
+      state.getShows = payload; //tate.getShows.concat(payload);
     },
     updateSeasons(state, payload) {
       state.getSeasons = [];
