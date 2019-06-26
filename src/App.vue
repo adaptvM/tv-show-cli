@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <!-- <searchBar msg="Welcome to Your Vue.js App"/> -->
-    <!-- <display-bar></display-bar> -->
-    <component :is="currentView" @select="changeView($event)"></component>
+    <searchBar msg="Welcome to Your Vue.js App"/>
+    <display-bar></display-bar>
+    <!-- <component :is="currentView" @select="changeView($event)"></component> -->
   </div>
 </template>
 
@@ -17,16 +17,15 @@ export default {
     searchBar,
     displayBar
   },
-  data: function () {
+  data: function() {
     return {
-       currentView: 'searchBar'
-    }
-  
+      currentView: "searchBar"
+    };
   },
   methods: {
     changeView(view) {
       this.currentView = view;
-      console.log(this.currentView)
+      console.log(this.currentView);
     }
   }
 };

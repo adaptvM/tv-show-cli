@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class>
     <h1>{{ msg }}</h1>
 
     <div class="form-group">
@@ -16,24 +16,25 @@
     </div>
     <br>
 
-    
-      <div class="container">
-        <div class="wrapper">
-          <div class="item" v-for="data in selectShows" :key="data.id">
-            <div v-if="data.show.image === null">
-              <img :src="noImage" width="210" height="295">
-              <!-- <p>{{genericTitle}} {{data.season.number}}</p> --> 
-            </div>
-            <div v-else>
-              <img height width :src="data.show.image.medium" @click="getSeason(data.show.id)">
-              <div>{{data.show.name}}</div>
-            </div>
-            
+    <div class="container">
+      <div class="wrapper">
+        <div class="item" v-for="data in selectShows" :key="data.id">
+          <div v-if="data.show.image === null">
+            <img :src="noImage" width="210" height="295">
+            <!-- <p>{{genericTitle}} {{data.season.number}}</p> -->
+          </div>
+          <div v-else>
+            <img
+              intrinsicsize="210 * 295"
+              :src="data.show.image.medium"
+              @click="getSeason(data.show.id)"
+            >
+            <div>{{data.show.name}}</div>
           </div>
         </div>
-        <!-- <P> {{selectShows}}</P> -->
       </div>
-    
+      <!-- <P> {{selectShows}}</P> -->
+    </div>
   </div>
 </template>
 
@@ -47,23 +48,21 @@ export default {
     return {
       showTitle: "",
       shows: [],
-      noImage: "https://static.tvmaze.com/images/no-img/no-img-portrait-text.png"
+      noImage:
+        "https://static.tvmaze.com/images/no-img/no-img-portrait-text.png"
     };
   },
   methods: {
     async getTVshows() {
-
-      if(this.showTitle) {
-          const seek = fetch(
+      if (this.showTitle) {
+        const seek = fetch(
           `http://localhost:3001/tvshows/${this.showTitle}`
         ).catch(err => err);
         const found = await seek.then(value => value.json());
         this.shows = found;
         this.$store.commit("updateShows", this.shows);
         this.$store.commit("updateSeasons", []);
-        
       }
-      
     },
     async getSeason(id) {
       const seasons = fetch(`http://localhost:3001/seasons/${id}`).catch(
@@ -75,7 +74,7 @@ export default {
       this.$store.commit("updateSeasons", foundSeasons);
     },
     changeView() {
-      this.$emit('select', 'displayBar');
+      this.$emit("select", "displayBar");
     }
   },
   computed: {
@@ -100,5 +99,4 @@ export default {
   grid-template-columns: repeat(5, 220px);
   grid-gap: 7px;
 }
-
 </style>
