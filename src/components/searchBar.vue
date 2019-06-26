@@ -18,18 +18,14 @@
 
     <div class="container">
       <div class="wrapper">
-        <div class="item" v-for="data in selectShows" :key="data.id">
-          <div v-if="data.show.image === null">
-            <img :src="noImage" width="210" height="295">
-            <!-- <p>{{genericTitle}} {{data.season.number}}</p> -->
-          </div>
-          <div v-else>
+        <div class="item" v-for="(item, i) in shows" :key="i">
+          <div>
             <img
-              intrinsicsize="210 * 295"
-              :src="data.show.image.medium"
-              @click="getSeason(data.show.id)"
+              width='210' height='295' 
+              :src="item.show.image ? item.show.image.medium : noImage"
+              @click="getSeason(item.show.id)"
             >
-            <div>{{data.show.name}}</div>
+            <div>{{item.show.name}}</div>
           </div>
         </div>
       </div>
