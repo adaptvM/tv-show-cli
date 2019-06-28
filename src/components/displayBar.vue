@@ -4,17 +4,28 @@
       <div class="container">
         <div class="wrapper">
           <div v-for="(data, index) in selectSeasons" :key="index" :id="index" class="item">
-            <div v-if="data.season.image === null">
-              <img :src="noImage" width="210" height="295">
-              <p>{{genericTitle}} {{data.season.number}}</p>
-            </div>
-            <div v-else>
-              <img :src="data.season.image.medium" @mouseover="act(index)">
+            <div :id="'szn' + index" class="show-detail">
+              <img
+                :src="(data.season.image !== null) ? data.season.image.medium : noImage"
+                width="210"
+                height="295"
+                @mouseover="swap(index)"
+              >
               <p>
                 <strong>{{genericTitle}} {{data.season.number}}</strong>
               </p>
             </div>
-            <!-- <p>{{data.season}}</p> -->
+            <div :id="'epsd' + index" class="hide-detail">
+              <img
+                :src="data.episodes ? data.episodes.image.medium : data.episodes.image ?data.episodes.image.medium : noImage"
+                width="210"
+                height="140"
+                @mouseout="swapAlt(index)"
+              >
+              <p>
+                <strong></strong>
+              </p>
+            </div>
           </div>
         </div>
         <!-- <P>{{selectSeasons}}</P> -->
@@ -37,22 +48,19 @@ export default {
     };
   },
   methods: {
-    act(id) {
-      const storeImg = this.$store.state.getSeasons;
+    swap(index) {
+      console.log();
+      const season = document.getElementById("szn" + index);
+      season.className = "hide-detail";
 
-      storeImg.forEach((data, idx) => {
-        if (idx == id) {
-          const item = document.getElementById(idx);
-          const newImg = document.createElement("img");
-          const src = document.createAttribute("src");
-          src.value = storeImg[idx].episodes.image.medium;
-          newImg.setAttributeNode(src);
-          item.replaceChild(newImg, item.childNodes[0]);
-        }
-      });
-      console.log(storeImg);
-
-      //console.log("I work");
+      const episode = document.getElementById("epsd" + index);
+      episode.className = "show-detail";
+    },
+    swapAlt(index) {
+      const episode = document.getElementById("epsd" + index);
+      episode.className = "hide-detail";
+      const season = document.getElementById("szn" + index);
+      season.className = "show-detail";
     }
   },
   computed: {
@@ -67,14 +75,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-  margin: auto;
+.hide-detail {
+  display: none;
 }
 
-.item {
+.show-detail {
+  display: block;
 }
+
 .wrapper {
-  display: flex;
+  display: grid;
   grid-template-columns: repeat(5, 220px);
   grid-gap: 7px;
 }

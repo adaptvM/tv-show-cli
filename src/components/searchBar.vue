@@ -2,16 +2,17 @@
   <div class>
     <h1>{{ msg }}</h1>
 
-    <div class="form-group">
+    <div>
       <label for="showTitle"></label>
-      <input
-        type="text"
-        id="showTitle"
-        class="form-control"
-        placeholder="Search for TV Shows"
-        v-model="showTitle"
-        @keyup="getTVshows()"
-      >
+      <v-flex>
+        <v-text-field
+          label="Solo"
+          placeholder="Search for TV shows"
+          solo
+          v-model="showTitle"
+          @keyup="getTVshows()"
+        ></v-text-field>
+      </v-flex>
       <!-- <button @click="changeView()">Search</button> -->
     </div>
     <br>
@@ -21,7 +22,6 @@
         <div class="item" v-for="data in selectShows" :key="data.id">
           <div v-if="data.show.image === null">
             <img :src="noImage" width="210" height="295">
-            <!-- <p>{{genericTitle}} {{data.season.number}}</p> -->
           </div>
           <div v-else>
             <img
