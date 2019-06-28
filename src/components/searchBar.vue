@@ -25,11 +25,12 @@
           </div>
           <div v-else>
             <img
-              intrinsicsize="210 * 295"
-              :src="data.show.image.medium"
-              @click="getSeason(data.show.id)"
+              width="210"
+              height="295"
+              :src="item.show.image ? item.show.image.medium : noImage"
+              @click="getSeason(item.show.id)"
             >
-            <div>{{data.show.name}}</div>
+            <div>{{item.show.name}}</div>
           </div>
         </div>
       </div>
