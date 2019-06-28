@@ -44,12 +44,11 @@ export default {
     return {
       noImage:
         "https://static.tvmaze.com/images/no-img/no-img-portrait-text.png",
-      genericTitle: "Season",
-      //showPrev: false 
+      genericTitle: "Season"
+      //showPrev: false
     };
   },
   methods: {
-<<<<<<< HEAD
     swap(index) {
       console.log();
       const season = document.getElementById("szn" + index);
@@ -63,17 +62,6 @@ export default {
       episode.className = "hide-detail";
       const season = document.getElementById("szn" + index);
       season.className = "show-detail";
-=======
-    act(id) {
-      const lastEp = document.getElementById('LE' + id).className = "show-last-episode";
-      const currentSzn = document.getElementById('S' + id).className = "hide-prev";
-      console.log(id);
-    },
-
-    backSeason(id) {
-      const currentSzn = document.getElementById('S' + id).className = "show-prev";
-      const lastEp = document.getElementById('LE' + id).className = "hide-last-episode";
->>>>>>> b5fcd82a9e237c5a229598bb69b1219dd2d0a400
     }
   },
   computed: {
@@ -92,11 +80,11 @@ export default {
   display: none;
 }
 
-<<<<<<< head .show-detail {
+head .show-detail {
   display: block;
 }
 
-=======>>>>>>>b5fcd82a9e237c5a229598bb69b1219dd2d0a400 .wrapper {
+.wrapper {
   display: grid;
   grid-template-columns: repeat(5, 220px);
   grid-gap: 7px;
