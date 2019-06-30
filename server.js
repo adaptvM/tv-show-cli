@@ -3,16 +3,36 @@ const cors = require("cors");
 const fetch = require("node-fetch");
 const app = express();
 const port = 3001;
+const find = require('./utils/fetch');
+
 
 app.use(cors());
 
-const find = async function(url) {
-  const seek = fetch(url);
-  const response = await seek.then(value => value.json()).catch(err => err);
-  return response;
-};
 
-const processSeasons = async function(arr) {
+const processRes = (arr) => {
+  const noImage = "https://static.tvmaze.com/images/no-img/no-img-portrait-text.png"
+  arr.forEach(item => {
+    if (item.season.image == null) {
+      item.season.image = {};
+      item.season.image.medium = noImage;
+    }
+
+    if (item.episodes == undefined) {
+      item.episodes = {};
+      item.episodes.image = {};
+      item.episodes.image.medium = noImage;
+    }
+
+    if (item.episodes.image == null) {
+      item.episodes.image = {};
+      item.episodes.image.medium = noImage;
+    }
+  });
+
+  return arr;
+}
+
+const processSeasons = async function (arr) {
   const resultArr = [];
 
   for (let i = 0; i < arr.length; i++) {
@@ -25,7 +45,9 @@ const processSeasons = async function(arr) {
     });
   }
 
-  return resultArr;
+  const finalRes = processRes(resultArr);
+
+  return finalRes;
 };
 
 app.get("/tvshows/:showName", async (req, res) => {

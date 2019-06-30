@@ -2,33 +2,39 @@
   <div>
     <div>
       <div class="container">
+        <v-btn class="button" color="info" large dark @click="view()">back</v-btn>
         <div class="wrapper">
           <div v-for="(data, index) in selectSeasons" :key="index" :id="index" class="item">
-            <div :id="'szn' + index" class="show-detail">
+            <div :id="'szn' + index" class="show-detail" @mouseover="swap(index)">
               <img
                 :src="(data.season.image !== null) ? data.season.image.medium : noImage"
                 width="210"
                 height="295"
-                @mouseover="swap(index)"
               >
-              <p>
+
+              <div class="bg">
+                <h3>{{genericTitle}} {{data.season.number}}</h3>
+              </div>
+              <!-- <p>
                 <strong>{{genericTitle}} {{data.season.number}}</strong>
-              </p>
+              </p>-->
             </div>
-            <div :id="'epsd' + index" class="hide-detail">
+            <div :id="'epsd' + index" class="hide-detail" @mouseout="swapAlt(index)">
               <img
                 :src="data.episodes ? data.episodes.image.medium : data.episodes.image ?data.episodes.image.medium : noImage"
                 width="210"
                 height="140"
-                @mouseout="swapAlt(index)"
               >
-              <p>
-                <strong></strong>
-              </p>
+              <div class="bg match">
+                <h3>last episode: {{data.episodes.name}}</h3>
+                <h3>Date: {{data.episodes.airdate}}</h3>
+              </div>
+              <div class="bg">
+                <h3>{{genericTitle}} {{data.season.number}}</h3>
+              </div>
             </div>
           </div>
         </div>
-        <!-- <P>{{selectSeasons}}</P> -->
       </div>
     </div>
   </div>
@@ -62,6 +68,9 @@ export default {
       episode.className = "hide-detail";
       const season = document.getElementById("szn" + index);
       season.className = "show-detail";
+    },
+    view() {
+      this.$emit("back", "searchBar");
     }
   },
   computed: {
@@ -76,33 +85,38 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+}
+
+.wrapper .item {
+  padding: 3px;
+}
+
+.bg {
+  width: 210px;
+  height: 38px;
+  background-color: #1f4b47;
+  color: white;
+}
+
 .hide-detail {
   display: none;
 }
 
-head .show-detail {
+.show-detail {
   display: block;
 }
 
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(5, 220px);
-  grid-gap: 7px;
+.match {
+  width: 210px;
+  height: 155px;
+  padding-top: 50px;
 }
 
-.hide-prev {
-  display: none;
-}
-
-.show-prev {
-  display: none;
-}
-
-.hide-last-episode {
-  display: none;
-}
-
-.show-last-episode {
-  display: block;
+.button {
+  float: left;
 }
 </style>

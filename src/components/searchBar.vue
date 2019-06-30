@@ -1,36 +1,44 @@
 <template>
   <div class>
-    <h1>{{ msg }}</h1>
-
-    <div>
-      <label for="showTitle"></label>
-      <v-flex>
-        <v-text-field
-          label="Solo"
-          placeholder="Search for TV shows"
-          solo
-          v-model="showTitle"
-          @keyup="getTVshows()"
-        ></v-text-field>
-      </v-flex>
-      <!-- <button @click="changeView()">Search</button> -->
-    </div>
-    <br>
+    <h1></h1>
 
     <div class="container">
+      <div id="title">
+        <v-flex>
+          <v-text-field
+            label="Solo"
+            placeholder="Search for TV shows"
+            solo
+            size="10"
+            v-model="showTitle"
+            @keyup="getTVshows()"
+          ></v-text-field>
+        </v-flex>
+        <!-- <button @click="changeView()">Search</button> -->
+      </div>
+
       <div class="wrapper">
-        <div class="item" v-for="data in selectShows" :key="data.id">
-          <div v-if="data.show.image === null">
-            <img :src="noImage" width="210" height="295">
+        <div class="item" v-for="item in selectShows" :key="item.id">
+          <div v-if="item.show.image === null">
+            <a href="#">
+              <img :src="noImage" width="210" height="295" @click="getSeason(item.show.id)">
+            </a>
+            <div class="bg">
+              <h3>{{item.show.name}}</h3>
+            </div>
           </div>
           <div v-else>
-            <img
-              width="210"
-              height="295"
-              :src="item.show.image ? item.show.image.medium : noImage"
-              @click="getSeason(item.show.id)"
-            >
-            <div>{{item.show.name}}</div>
+            <a href="#">
+              <img
+                width="210"
+                height="295"
+                :src="item.show.image ? item.show.image.medium : noImage"
+                @click="getSeason(item.show.id)"
+              >
+            </a>
+            <div class="bg">
+              <h3>{{item.show.name}}</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -42,9 +50,6 @@
 <script>
 export default {
   name: "searchBar",
-  props: {
-    msg: String
-  },
   data: function() {
     return {
       showTitle: "",
@@ -65,6 +70,7 @@ export default {
         this.$store.commit("updateSeasons", []);
       }
     },
+
     async getSeason(id) {
       const seasons = fetch(`http://localhost:3001/seasons/${id}`).catch(
         err => err
@@ -73,6 +79,7 @@ export default {
       // eslint-disable-next-line no-console
       console.log(foundSeasons);
       this.$store.commit("updateSeasons", foundSeasons);
+      this.changeView();
     },
     changeView() {
       this.$emit("select", "displayBar");
@@ -96,8 +103,26 @@ export default {
 
 <style scoped>
 .wrapper {
-  display: grid;
-  grid-template-columns: repeat(5, 220px);
-  grid-gap: 7px;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+}
+
+.wrapper .item {
+  padding: 3px;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+.bg {
+  width: 210px;
+  height: 38px;
+  background-color: #1f4b47;
+  color: white;
+}
+
+.bg > h3 {
 }
 </style>
