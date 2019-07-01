@@ -11,9 +11,9 @@ describe('asyncFetch', () => {
       "completed": false
     }
 
-    fetchMock.get('http://fake-news.com/', data)
+    fetchMock.get('https://jsonplaceholder.typicode.com/todos/1', data)
 
-    const call = find('http://fake-news.com/');
+    const call = find('https://jsonplaceholder.typicode.com/todos/1');
 
     const response = await call.then(value => value);
     console.log(response);
